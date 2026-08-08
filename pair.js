@@ -152,7 +152,50 @@ router.get('/', async (req, res) => {
 
                             await sock.relayMessage(userJid, interactiveMsg.message, { messageId: interactiveMsg.key.id });
 
-                            await sock.sendMessage(userJid, { text: megaSessionId, quoted: interactiveMsg });
+                            // ===== Session ID message with prefix + copy button =====
+                            const prefixedSessionId = `ʀᴀʙʙɪᴛxᴍᴅ~${megaSessionId}`;
+
+                            const sessionText = `*🔖ʏᴏᴜʀ sᴇssɪᴏɴ-ɪᴅ ɢᴀɴᴀʀᴀᴛᴇ sᴜᴄᴇssғᴜʟʟ !*
+
+*${prefixedSessionId}*
+
+*🗃️- ᴘᴏᴡᴇʀᴇᴅ ʙʏ ʀᴀʙʙɪᴛxᴍᴅ !*`;
+
+                            const sessionMsg = generateWAMessageFromContent(
+                                userJid,
+                                {
+                                    viewOnceMessage: {
+                                        message: {
+                                            messageContextInfo: { deviceListMetadata: {} },
+                                            interactiveMessage: proto.Message.InteractiveMessage.create({
+                                                body: proto.Message.InteractiveMessage.Body.create({
+                                                    text: sessionText,
+                                                }),
+                                                nativeFlowMessage:
+                                                    proto.Message.InteractiveMessage.NativeFlowMessage.create({
+                                                        buttons: [
+                                                            {
+                                                                name: "cta_copy",
+                                                                buttonParamsJson: JSON.stringify({
+                                                                    display_text: "❒ ᴄᴏᴘʏ ᴄᴏᴅᴇ",
+                                                                    copy_code: prefixedSessionId,
+                                                                }),
+                                                            },
+                                                        ],
+                                                    }),
+                                                contextInfo: {
+                                                    stanzaId: interactiveMsg.key.id,
+                                                    participant: userJid,
+                                                    quotedMessage: interactiveMsg.message,
+                                                },
+                                            }),
+                                        },
+                                    },
+                                },
+                                {}
+                            );
+
+                            await sock.relayMessage(userJid, sessionMsg.message, { messageId: sessionMsg.key.id });
 
                             await delay(1000);
                         }
