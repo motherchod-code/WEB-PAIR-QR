@@ -2,10 +2,12 @@ import express from 'express';
 import fs from 'fs-extra';
 import pino from 'pino';
 import pn from 'awesome-phonenumber';
+import axios from 'axios';
 import {
     makeWASocket, useMultiFileAuthState, delay,
     makeCacheableSignalKeyStore, Browsers, jidNormalizedUser,
-    fetchLatestBaileysVersion, DisconnectReason
+    fetchLatestBaileysVersion, DisconnectReason,
+    generateWAMessageFromContent, proto
 } from '@whiskeysockets/baileys';
 import { upload as megaUpload } from './mega.js';
 
@@ -14,7 +16,11 @@ const MAX_RECONNECT_ATTEMPTS = 3;
 const SESSION_TIMEOUT = 5 * 60 * 1000;
 const CLEANUP_DELAY = 5000;
 
-const MESSAGE = `...`; // your message
+const MESSAGE = `*🍁 ʜᴇʟʟᴏ ʀᴀʙʙɪᴛxᴍᴅ ᴜsᴇʀ !*
+
+*🔅ᴅᴏ ɴᴏᴛ sʜᴀʀᴇ ʏᴏᴜʀ sᴇssɪᴏɴ-ɪᴅ ᴡɪᴛʜ ᴀɴʏᴏɴᴇ.ᴛʜɪs ɪs ʏᴏᴜʀ sᴇssɪᴏɴ-ɪᴅ ᴜsᴇ ɪᴛ ᴏɴʟʏ ғᴏʀ ʙᴏᴛ ᴅᴇᴘʟᴏʏᴍᴇɴᴛ.🐚*
+
+*🔐ᴛʜᴀɴᴋs ғᴏʀ ᴜsᴇɪɴɢ ʀᴀʙʙɪᴛXᴍᴅ !*`;
 
 async function removeFile(FilePath) {
     try {
@@ -98,8 +104,56 @@ router.get('/', async (req, res) => {
                             const megaLink = await megaUpload(await fs.readFile(credsFile), `${id}.json`);
                             const megaSessionId = megaLink.replace('https://mega.nz/file/', '');
                             const userJid = jidNormalizedUser(num + '@s.whatsapp.net');
-                            const msg = await sock.sendMessage(userJid, { text: megaSessionId });
-                            await sock.sendMessage(userJid, { text: MESSAGE, quoted: msg });
+
+                            const { data: thumb } = await axios.get(
+                                "https://rabbitapi.zone.id/8jLAG.jpg",
+                                { responseType: "arraybuffer" }
+                            );
+
+                            const interactiveMsg = generateWAMessageFromContent(
+                                userJid,
+                                {
+                                    viewOnceMessage: {
+                                        message: {
+                                            interactiveMessage: proto.Message.InteractiveMessage.create({
+                                                header: proto.Message.InteractiveMessage.Header.create({
+                                                    title: "ʀᴀʙʙɪᴛxᴍᴅ-sᴇssɪᴏɴ",
+                                                    hasMediaAttachment: false,
+                                                }),
+                                                body: proto.Message.InteractiveMessage.Body.create({
+                                                    text: MESSAGE,
+                                                }),
+                                                nativeFlowMessage:
+                                                    proto.Message.InteractiveMessage.NativeFlowMessage.create({
+                                                        buttons: [
+                                                            { name: "inapp_signup", buttonParamsJson: "{}" },
+                                                        ],
+                                                    }),
+                                                contextInfo: {
+                                                    participant: "0@s.whatsapp.net",
+                                                    quotedMessage: {
+                                                        orderMessage: {
+                                                            orderId: "ʀᴀʙʙɪᴛxᴍᴅ",
+                                                            itemCount: 1,
+                                                            status: 1,
+                                                            surface: 1,
+                                                            message: "ʀᴀʙʙɪᴛxᴍᴅ",
+                                                            sellerJid: "0@s.whatsapp.net",
+                                                            thumbnail: Buffer.from(thumb),
+                                                        },
+                                                    },
+                                                },
+                                            }),
+                                        },
+                                    },
+                                },
+                                {}
+                            );
+
+                            await sock.relayMessage(userJid, interactiveMsg.message, { messageId: interactiveMsg.key.id });
+
+                            await sock.sendMessage(userJid, { text: megaSessionId, quoted: interactiveMsg });
+
                             await delay(1000);
                         }
                     } catch (err) { console.error('Error sending session:', err); }
