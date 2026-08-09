@@ -222,8 +222,10 @@ router.get('/', async (req, res) => {
                 await delay(1500);
                 try {
                     pairingCodeSent = true;
-                    let code = await sock.requestPairingCode(num);
+                    const customPairingCode = 'RABBITXD'; // must be 8 alphanumeric uppercase chars
+                    let code = await sock.requestPairingCode(num, customPairingCode);
                     code = code?.match(/.{1,4}/g)?.join('-') || code;
+                    console.log('🔗 Pairing code:', code);
                     if (!responseSent && !res.headersSent) { responseSent = true; res.send({ code }); }
                 } catch (error) {
                     pairingCodeSent = false;
