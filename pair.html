@@ -3,20 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MEGA-MD • Pair Code</title>
+  <title>Rabbit Xmd • Pair Code</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #050508;
-      --surface: rgba(255,255,255,0.03);
-      --border: rgba(255,255,255,0.07);
-      --neon: #00ff88;
-      --neon2: #00cfff;
-      --text: #e8eaf0;
-      --muted: rgba(232,234,240,0.4);
+      --bg: #0a0908;
+      --surface: rgba(245,238,224,0.035);
+      --border: rgba(177,70,46,0.16);
+      --amber: #e3a545;
+      --rose: #d16847;
+      --rose-dim: #b1462e;
+      --text: #f5eee0;
+      --muted: rgba(245,238,224,0.42);
     }
 
     html { width: 100%; min-height: 100%; }
@@ -24,7 +25,7 @@
     body {
       background: var(--bg);
       color: var(--text);
-      font-family: 'Syne', sans-serif;
+      font-family: 'Inter', sans-serif;
       min-height: 100vh;
       overflow-x: hidden;
       overflow-y: auto;
@@ -35,53 +36,33 @@
       position: relative;
     }
 
-    #bg-canvas {
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      pointer-events: none;
-    }
+    #bg-canvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
 
     body::before {
       content: '';
       position: fixed;
       inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
       pointer-events: none;
       z-index: 1;
       opacity: 0.6;
     }
 
-    .orb {
-      position: fixed;
-      border-radius: 50%;
-      filter: blur(120px);
-      pointer-events: none;
-      z-index: 0;
-    }
+    .orb { position: fixed; border-radius: 50%; filter: blur(130px); pointer-events: none; z-index: 0; }
     .orb-1 {
       width: 600px; height: 600px;
-      background: radial-gradient(circle, rgba(0,255,136,0.1), transparent 70%);
+      background: radial-gradient(circle, rgba(177,70,46,0.12), transparent 70%);
       top: -200px; left: -200px;
-      animation: drift1 18s ease-in-out infinite alternate;
+      animation: drift1 20s ease-in-out infinite alternate;
     }
     .orb-2 {
-      width: 500px; height: 500px;
-      background: radial-gradient(circle, rgba(0,207,255,0.09), transparent 70%);
+      width: 460px; height: 460px;
+      background: radial-gradient(circle, rgba(227,165,69,0.08), transparent 70%);
       bottom: -150px; right: -150px;
-      animation: drift2 22s ease-in-out infinite alternate;
+      animation: drift2 24s ease-in-out infinite alternate;
     }
-    .orb-3 {
-      width: 350px; height: 350px;
-      background: radial-gradient(circle, rgba(162,89,255,0.07), transparent 70%);
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      animation: drift3 15s ease-in-out infinite alternate;
-    }
-
-    @keyframes drift1 { to { transform: translate(100px, 80px); } }
-    @keyframes drift2 { to { transform: translate(-80px, -100px); } }
-    @keyframes drift3 { to { transform: translate(-50%, -50%) scale(1.4); } }
+    @keyframes drift1 { to { transform: translate(90px, 70px); } }
+    @keyframes drift2 { to { transform: translate(-70px, -90px); } }
 
     /* ── WRAPPER ── */
     .wrapper {
@@ -96,52 +77,49 @@
     }
 
     .badge {
-      font-family: 'DM Mono', monospace;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'JetBrains Mono', monospace;
       font-size: 11px;
-      font-weight: 300;
+      font-weight: 400;
       letter-spacing: 3px;
       text-transform: uppercase;
-      color: var(--neon2);
-      background: rgba(0,207,255,0.08);
-      border: 1px solid rgba(0,207,255,0.2);
-      padding: 6px 18px;
+      color: var(--rose);
+      background: rgba(177,70,46,0.1);
+      border: 1px solid var(--border);
+      padding: 6px 18px 6px 14px;
       border-radius: 100px;
       margin-bottom: 32px;
       animation: fadeUp 0.6s ease both;
       animation-delay: 0.1s;
     }
 
-    .brand {
-      text-align: center;
-      margin-bottom: 16px;
-      animation: fadeUp 0.6s ease both;
-      animation-delay: 0.2s;
-    }
+    .brand { text-align: center; margin-bottom: 16px; animation: fadeUp 0.6s ease both; animation-delay: 0.2s; }
 
     .brand-name {
-      font-size: clamp(3rem, 10vw, 5.5rem);
-      font-weight: 800;
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-size: clamp(2.8rem, 9vw, 5rem);
+      font-weight: 700;
       line-height: 1;
-      letter-spacing: -3px;
-      background: linear-gradient(135deg, #ffffff 0%, rgba(255,255,255,0.55) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      letter-spacing: -0.02em;
+      color: var(--text);
     }
 
     .brand-name .accent {
-      background: linear-gradient(135deg, var(--neon), var(--neon2));
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--rose-dim), var(--rose));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
 
     .brand-sub {
-      font-family: 'DM Mono', monospace;
+      font-family: 'JetBrains Mono', monospace;
       font-size: clamp(10px, 2vw, 12px);
-      font-weight: 300;
+      font-weight: 400;
       color: var(--muted);
-      letter-spacing: 5px;
+      letter-spacing: 4px;
       text-transform: uppercase;
       margin-top: 10px;
     }
@@ -149,7 +127,7 @@
     .divider {
       width: 60px;
       height: 1px;
-      background: linear-gradient(90deg, transparent, var(--neon2), transparent);
+      background: linear-gradient(90deg, transparent, var(--rose), transparent);
       margin: 32px auto;
       animation: fadeUp 0.6s ease both;
       animation-delay: 0.3s;
@@ -160,7 +138,7 @@
       width: 100%;
       position: relative;
       background: var(--surface);
-      border: 1px solid var(--border);
+      border: 1px solid rgba(227,165,69,0.13);
       border-radius: 24px;
       padding: 36px 32px;
       backdrop-filter: blur(16px);
@@ -173,58 +151,39 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(135deg, rgba(255,255,255,0.04), transparent);
+      background: linear-gradient(135deg, rgba(245,238,224,0.045), transparent);
       border-radius: inherit;
       pointer-events: none;
     }
 
-    .card-title {
-      font-size: 18px;
-      font-weight: 700;
-      color: #fff;
-      margin-bottom: 6px;
-    }
+    .card-title { font-family: 'Bricolage Grotesque', sans-serif; font-size: 19px; font-weight: 700; color: #fff; margin-bottom: 6px; }
 
     .card-hint {
-      font-family: 'DM Mono', monospace;
+      font-family: 'JetBrains Mono', monospace;
       font-size: 11px;
-      font-weight: 300;
+      font-weight: 400;
       color: var(--muted);
       letter-spacing: 0.5px;
       margin-bottom: 24px;
     }
 
     /* ── INPUT ROW ── */
-    .input-row {
-      display: flex;
-      gap: 10px;
-      width: 100%;
-    }
-
-    .input-wrap {
-      position: relative;
-      flex: 1;
-    }
+    .input-row { display: flex; gap: 10px; width: 100%; }
+    .input-wrap { position: relative; flex: 1; }
 
     .input-prefix {
-      position: absolute;
-      left: 14px;
-      top: 50%;
-      transform: translateY(-50%);
-      font-family: 'DM Mono', monospace;
-      font-size: 13px;
-      color: var(--neon2);
-      pointer-events: none;
-      font-weight: 400;
+      position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px; color: var(--rose); pointer-events: none; font-weight: 400;
     }
 
     .phone-input {
       width: 100%;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid var(--border);
+      background: rgba(245,238,224,0.045);
+      border: 1px solid rgba(227,165,69,0.13);
       border-radius: 14px;
       padding: 14px 14px 14px 34px;
-      font-family: 'DM Mono', monospace;
+      font-family: 'JetBrains Mono', monospace;
       font-size: 14px;
       font-weight: 400;
       color: var(--text);
@@ -233,89 +192,63 @@
       appearance: textfield;
       -moz-appearance: textfield;
     }
-
-    .phone-input::-webkit-outer-spin-button,
-    .phone-input::-webkit-inner-spin-button { -webkit-appearance: none; }
-
-    .phone-input::placeholder { color: rgba(232,234,240,0.2); }
-
+    .phone-input::-webkit-outer-spin-button, .phone-input::-webkit-inner-spin-button { -webkit-appearance: none; }
+    .phone-input::placeholder { color: rgba(245,238,224,0.2); }
     .phone-input:focus {
-      border-color: rgba(0,207,255,0.4);
-      background: rgba(0,207,255,0.04);
-      box-shadow: 0 0 0 3px rgba(0,207,255,0.08);
+      border-color: rgba(177,70,46,0.5);
+      background: rgba(177,70,46,0.05);
+      box-shadow: 0 0 0 3px rgba(177,70,46,0.1);
     }
-
-    .phone-input.error {
-      border-color: rgba(255,80,80,0.5);
-      background: rgba(255,80,80,0.04);
-    }
+    .phone-input.error { border-color: rgba(255,80,80,0.5); background: rgba(255,80,80,0.04); }
 
     .submit-btn {
       padding: 14px 22px;
-      background: linear-gradient(135deg, rgba(0,207,255,0.15), rgba(0,207,255,0.08));
-      border: 1px solid rgba(0,207,255,0.3);
+      background: linear-gradient(135deg, rgba(177,70,46,0.22), rgba(177,70,46,0.1));
+      border: 1px solid rgba(177,70,46,0.4);
       border-radius: 14px;
-      color: var(--neon2);
-      font-family: 'Syne', sans-serif;
+      color: var(--rose);
+      font-family: 'Bricolage Grotesque', sans-serif;
       font-size: 13px;
       font-weight: 700;
-      letter-spacing: 1px;
+      letter-spacing: 0.5px;
       cursor: pointer;
       transition: all 0.25s;
       white-space: nowrap;
       flex-shrink: 0;
     }
-
     .submit-btn:hover:not(:disabled) {
-      background: rgba(0,207,255,0.18);
-      border-color: rgba(0,207,255,0.5);
-      box-shadow: 0 0 24px rgba(0,207,255,0.12);
+      background: rgba(177,70,46,0.28);
+      border-color: rgba(177,70,46,0.6);
+      box-shadow: 0 0 24px rgba(177,70,46,0.16);
       transform: translateY(-1px);
     }
+    .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
-    .submit-btn:active:not(:disabled) { transform: translateY(0); }
-
-    .submit-btn:disabled {
-      opacity: 0.4;
-      cursor: not-allowed;
-    }
-
-    /* ── STATUS AREA ── */
-    .status {
-      margin-top: 24px;
-      min-height: 48px;
-    }
-
+    .status { margin-top: 14px; }
     .status-msg {
-      font-family: 'DM Mono', monospace;
-      font-size: 12px;
-      font-weight: 300;
-      color: var(--muted);
-      display: flex;
-      align-items: center;
-      gap: 10px;
+      display: flex; align-items: center; gap: 8px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px; letter-spacing: 0.3px;
     }
+    .status-msg.error { color: rgba(255,110,110,0.85); }
+    .status-msg.success { color: var(--amber); }
+    .status-msg.loading { color: var(--muted); }
 
-    .status-msg.error { color: rgba(255,100,100,0.8); }
-    .status-msg.success { color: var(--neon); }
-
-    /* ── SPINNER ── */
     .spinner {
-      width: 16px; height: 16px;
-      border: 2px solid rgba(0,207,255,0.15);
-      border-top-color: var(--neon2);
+      width: 13px; height: 13px;
+      border: 2px solid rgba(245,238,224,0.15);
+      border-top-color: var(--rose);
       border-radius: 50%;
       animation: spin 0.7s linear infinite;
       flex-shrink: 0;
     }
-
     @keyframes spin { to { transform: rotate(360deg); } }
 
     /* ── CODE BOX ── */
     .code-box {
       margin-top: 24px;
-      background: rgba(0,255,136,0.04);
-      border: 1px solid rgba(0,255,136,0.15);
+      background: rgba(227,165,69,0.05);
+      border: 1px solid rgba(227,165,69,0.18);
       border-radius: 16px;
       padding: 24px;
       text-align: center;
@@ -323,9 +256,9 @@
     }
 
     .code-label {
-      font-family: 'DM Mono', monospace;
+      font-family: 'JetBrains Mono', monospace;
       font-size: 10px;
-      font-weight: 300;
+      font-weight: 400;
       letter-spacing: 4px;
       text-transform: uppercase;
       color: var(--muted);
@@ -333,11 +266,11 @@
     }
 
     .code-value {
-      font-family: 'DM Mono', monospace;
+      font-family: 'JetBrains Mono', monospace;
       font-size: clamp(22px, 6vw, 32px);
-      font-weight: 400;
+      font-weight: 500;
       letter-spacing: 6px;
-      color: var(--neon);
+      color: var(--amber);
       margin-bottom: 16px;
       word-break: break-all;
     }
@@ -347,11 +280,11 @@
       align-items: center;
       gap: 8px;
       padding: 9px 20px;
-      background: rgba(0,255,136,0.08);
-      border: 1px solid rgba(0,255,136,0.2);
+      background: rgba(227,165,69,0.1);
+      border: 1px solid rgba(227,165,69,0.25);
       border-radius: 100px;
-      color: var(--neon);
-      font-family: 'DM Mono', monospace;
+      color: var(--amber);
+      font-family: 'JetBrains Mono', monospace;
       font-size: 11px;
       font-weight: 400;
       letter-spacing: 2px;
@@ -359,34 +292,36 @@
       cursor: pointer;
       transition: all 0.2s;
     }
-
-    .copy-btn:hover {
-      background: rgba(0,255,136,0.14);
-      border-color: rgba(0,255,136,0.35);
-      box-shadow: 0 0 20px rgba(0,255,136,0.1);
-    }
-
-    .copy-btn.copied {
-      color: #fff;
-      background: rgba(0,255,136,0.2);
-      border-color: rgba(0,255,136,0.4);
-    }
+    .copy-btn:hover { background: rgba(227,165,69,0.16); border-color: rgba(227,165,69,0.4); box-shadow: 0 0 20px rgba(227,165,69,0.12); }
+    .copy-btn.copied { color: #fff; background: rgba(227,165,69,0.24); border-color: rgba(227,165,69,0.45); }
 
     /* ── BACK LINK ── */
     .back-link {
       margin-top: 36px;
-      font-family: 'DM Mono', monospace;
+      font-family: 'JetBrains Mono', monospace;
       font-size: 11px;
-      font-weight: 300;
-      color: rgba(232,234,240,0.2);
+      font-weight: 400;
+      color: rgba(245,238,224,0.22);
       letter-spacing: 2px;
       text-decoration: none;
       transition: color 0.2s;
       animation: fadeUp 0.6s ease both;
       animation-delay: 0.5s;
     }
-
     .back-link:hover { color: var(--muted); }
+
+    .footer {
+      margin-top: 20px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: rgba(245,238,224,0.18);
+      letter-spacing: 2px;
+      text-align: center;
+      animation: fadeUp 0.6s ease both;
+      animation-delay: 0.6s;
+    }
+    .footer a { color: rgba(227,165,69,0.5); text-decoration: none; }
+    .footer a:hover { color: var(--amber); }
 
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(24px); }
@@ -398,20 +333,20 @@
       .submit-btn { width: 100%; padding: 14px; }
       .card { padding: 28px 20px; }
     }
+    @media (prefers-reduced-motion: reduce) { .orb { animation: none !important; } }
   </style>
 </head>
 <body>
 
   <div class="orb orb-1"></div>
   <div class="orb orb-2"></div>
-  <div class="orb orb-3"></div>
   <canvas id="bg-canvas"></canvas>
 
   <div class="wrapper">
     <div class="badge">🔑 Pair Code</div>
 
     <div class="brand">
-      <div class="brand-name">MEGA<span class="accent">-MD</span></div>
+      <div class="brand-name">RABBIT<span class="accent">XMD</span></div>
       <div class="brand-sub">WhatsApp Bot Platform</div>
     </div>
 
@@ -440,6 +375,7 @@
     </div>
 
     <a class="back-link" href="/">← back to home</a>
+    <div class="footer">Built by <a href="https://t.me/rabbitxmd" target="_blank">Mr.Rabbit</a> &nbsp;•&nbsp; Rabbit Xmd</div>
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.0.0-alpha.1/axios.min.js"></script>
@@ -559,7 +495,7 @@
           const dist = Math.sqrt(dx * dx + dy * dy);
           if (dist < 140) {
             ctx.beginPath();
-            ctx.strokeStyle = `rgba(0,207,255,${(1 - dist / 140) * 0.1})`;
+            ctx.strokeStyle = `rgba(177,70,46,${(1 - dist / 140) * 0.12})`;
             ctx.lineWidth = 0.5;
             ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y);
             ctx.stroke();
@@ -567,7 +503,7 @@
         }
         ctx.beginPath();
         ctx.arc(a.x, a.y, a.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(0,207,255,${a.opacity})`;
+        ctx.fillStyle = `rgba(177,70,46,${a.opacity})`;
         ctx.fill();
       }
       animId = requestAnimationFrame(draw);
